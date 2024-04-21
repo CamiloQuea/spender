@@ -8,7 +8,10 @@ import {
   serial,
   timestamp,
   varchar,
+  
+  real
 } from "drizzle-orm/pg-core";
+
 
 /**
  * This is an example of how to use the multi-project schema feature of Drizzle ORM. Use the same
@@ -18,11 +21,13 @@ import {
  */
 export const createTable = pgTableCreator((name) => `spender_${name}`);
 
-export const posts = createTable(
-  "post",
+export const spend = createTable(
+  "expense",
   {
     id: serial("id").primaryKey(),
-    name: varchar("name", { length: 256 }),
+    amount: real("amount").default(0).notNull(),
+    name: varchar("name"),
+    description: varchar("description"),
     createdAt: timestamp("created_at")
       .default(sql`CURRENT_TIMESTAMP`)
       .notNull(),
