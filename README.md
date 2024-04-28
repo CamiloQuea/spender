@@ -16,6 +16,7 @@ Spender App is a small personal project aim to be an intuitive expense tracking 
 - Next JS (Using [T3 Stack](https://create.t3.gg/) as a base)
 - PostgreSQL
 - Tailwind
+- Drizzle ORM
 - Will update this section on the go...
 
 ## How to Get Started:
