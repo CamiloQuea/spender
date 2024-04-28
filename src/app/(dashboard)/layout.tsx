@@ -1,3 +1,4 @@
+"use client";
 import {
   Home,
   LineChart,
@@ -31,86 +32,52 @@ import {
   TooltipTrigger,
 } from "@/components/ui/tooltip";
 import { ReactNode } from "react";
+import { routes } from "./_navigation/routes";
+import { cn } from "@/lib/utils";
+import SidebarLink from "./_components/sidebar-link";
+import { usePathname } from "next/navigation";
 
 const Layout = ({ children }: { children: ReactNode }) => {
+  const path = usePathname();
+
+  const isActive = (routePath: string) => path === routePath;
+
   return (
     <div className="flex min-h-screen w-full flex-col bg-muted/40">
       <aside className="fixed inset-y-0 left-0 z-10 hidden w-14 flex-col border-r bg-background sm:flex">
-        <ScrollArea>
-          <nav className="flex flex-col items-center gap-4 px-2 py-4">
-            <TooltipProvider >
-              <Tooltip >
-                <TooltipTrigger  className="z-50" asChild>
-                  <Link
-                    href="#"
-                    className="group flex h-9 w-9 shrink-0 items-center justify-center gap-2 rounded-full bg-primary text-lg font-semibold text-primary-foreground md:h-8 md:w-8 md:text-base"
+        <ScrollArea className="h-full">
+          <nav className="flex h-full flex-col items-center gap-4 px-2 py-4">
+            {routes.map((route, i) => (
+              <TooltipProvider key={route.id}>
+                <Tooltip>
+                  <TooltipTrigger asChild>
+                    <Link
+                      href={route.path}
+                      className={cn(
+                        "group flex h-9 w-9 shrink-0 items-center justify-center gap-2 rounded-full text-lg font-semibold text-primary-foreground md:h-8 md:w-8 md:text-base",
+                        i === 0
+                          ? "bg-primary text-white"
+                          : "text-muted-foreground ",
+                        i === routes.length - 1 ? "mt-auto" : "",
+                        isActive(route.path) && i !== 0
+                          ? "flex h-9 w-9 items-center justify-center rounded-lg bg-accent text-accent-foreground transition-colors hover:text-foreground md:h-8 md:w-8"
+                          : "flex h-9 w-9 items-center justify-center rounded-lg transition-colors md:h-8 md:w-8",
+                      )}
+                    >
+                      <route.icon className="h-4 w-4 transition-all group-hover:scale-110" />
+                      <span className="sr-only">{route.name}</span>
+                    </Link>
+                  </TooltipTrigger>
+                  <TooltipContent
+                    side={i === 0 ? "bottom" : "right"}
+                    align="start"
+                    className=""
                   >
-                    <Package2 className="h-4 w-4 transition-all group-hover:scale-110" />
-                    <span className="sr-only">Dashboard</span>
-                  </Link>
-                </TooltipTrigger>
-                <TooltipContent side="bottom" align="start" className="">Dashboard</TooltipContent>
-              </Tooltip>
-            </TooltipProvider>
-            <TooltipProvider>
-              <Tooltip>
-                <TooltipTrigger asChild>
-                  <Link
-                    href="#"
-                    className="flex h-9 w-9 items-center justify-center rounded-lg transition-colors hover:text-foreground md:h-8 md:w-8"
-                  >
-                    <ShoppingCart className="h-5 w-5" />
-                    <span className="sr-only">Expenses</span>
-                  </Link>
-                </TooltipTrigger>
-                <TooltipContent side="right">Expenses</TooltipContent>
-              </Tooltip>
-            </TooltipProvider>
-   
-            <TooltipProvider>
-              <Tooltip>
-                <TooltipTrigger asChild>
-                  <Link
-                    href="#"
-                    className="flex h-9 w-9 items-center justify-center rounded-lg text-muted-foreground transition-colors hover:text-foreground md:h-8 md:w-8"
-                  >
-                    <Users2 className="h-5 w-5" />
-                    <span className="sr-only">Loans</span>
-                  </Link>
-                </TooltipTrigger>
-                <TooltipContent side="right">Loans</TooltipContent>
-              </Tooltip>
-            </TooltipProvider>
-            <TooltipProvider>
-              <Tooltip>
-                <TooltipTrigger asChild>
-                  <Link
-                    href="#"
-                    className="flex h-9 w-9 items-center justify-center rounded-lg text-muted-foreground transition-colors hover:text-foreground md:h-8 md:w-8"
-                  >
-                    <LineChart className="h-5 w-5" />
-                    <span className="sr-only">Graphs</span>
-                  </Link>
-                </TooltipTrigger>
-                <TooltipContent side="right">Graphs</TooltipContent>
-              </Tooltip>
-            </TooltipProvider>
-          </nav>
-          <nav className="mt-auto flex flex-col items-center gap-4 px-2 py-4">
-            <TooltipProvider>
-              <Tooltip>
-                <TooltipTrigger asChild>
-                  <Link
-                    href="#"
-                    className="flex h-9 w-9 items-center justify-center rounded-lg text-muted-foreground transition-colors hover:text-foreground md:h-8 md:w-8"
-                  >
-                    <Settings className="h-5 w-5" />
-                    <span className="sr-only">Settings</span>
-                  </Link>
-                </TooltipTrigger>
-                <TooltipContent side="right">Settings</TooltipContent>
-              </Tooltip>
-            </TooltipProvider>
+                    {route.name}
+                  </TooltipContent>
+                </Tooltip>
+              </TooltipProvider>
+            ))}
           </nav>
         </ScrollArea>
       </aside>
