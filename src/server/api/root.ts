@@ -1,5 +1,5 @@
-import { spendRouter } from "~/server/api/routers/spend";
-import { createCallerFactory, createTRPCRouter } from "~/server/api/trpc";
+import { spendRouter } from "./routers/spend";
+import { createCallerFactory, createTRPCRouter } from "./trpc";
 
 /**
  * This is the primary router for your server.
