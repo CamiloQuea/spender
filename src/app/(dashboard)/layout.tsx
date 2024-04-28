@@ -92,7 +92,44 @@ const Layout = ({ children }: { children: ReactNode }) => {
             </SheetTrigger>
             <SheetContent side="left" className="sm:max-w-xs">
               <nav className="grid gap-6 text-lg font-medium">
-                <Link
+                {routes.map((route, i) => {
+                  if (i === 0)
+                    return (
+                      <Link
+                        href="#"
+                        className="flex gap-2 items-center"
+                        // className="group flex h-10 w-10 shrink-0 items-center justify-center gap-2 rounded-full bg-primary text-lg font-semibold text-primary-foreground md:text-base"
+                      >
+                        <div  className="group flex h-10 w-10 shrink-0 items-center justify-center gap-2 rounded-full bg-primary text-lg font-semibold text-primary-foreground md:text-base">
+                          <route.icon className="h-5 w-5 transition-all group-hover:scale-110" />
+                        </div>
+                          <span className="">{route.name}</span>
+                      </Link>
+                    );
+
+                  return (
+                    <Link
+                      href={route.path}
+                      key={route.id}
+                      className="flex items-center gap-4 px-2.5 text-muted-foreground hover:text-foreground"
+                      // className={cn(
+                      //   // "group flex h-9 w-9 shrink-0 items-center justify-center gap-2 rounded-full text-lg font-semibold text-primary-foreground md:h-8 md:w-8 md:text-base",
+                      //   // i === 0
+                      //   //   ? "bg-primary text-white"
+                      //   //   : "text-muted-foreground ",
+                      //   // i === routes.length - 1 ? "mt-auto" : "",
+                      //   isActive(route.path) && i !== 0
+                      //     ? "flex h-9 w-9 items-center justify-center rounded-lg bg-accent text-accent-foreground transition-colors hover:text-foreground md:h-8 md:w-8"
+                      //     : "flex h-9 w-9 items-center justify-center rounded-lg transition-colors md:h-8 md:w-8",
+                      // )}
+                    >
+                      <route.icon className="h-4 w-4 transition-all group-hover:scale-110" />
+                      {route.name}
+                    </Link>
+                  );
+                })}
+
+                {/* <Link
                   href="#"
                   className="group flex h-10 w-10 shrink-0 items-center justify-center gap-2 rounded-full bg-primary text-lg font-semibold text-primary-foreground md:text-base"
                 >
@@ -133,7 +170,7 @@ const Layout = ({ children }: { children: ReactNode }) => {
                 >
                   <LineChart className="h-5 w-5" />
                   Settings
-                </Link>
+                </Link> */}
               </nav>
             </SheetContent>
           </Sheet>
