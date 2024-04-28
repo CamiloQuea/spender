@@ -8,7 +8,15 @@ import { useState } from "react";
 import SuperJSON from "superjson";
 
 
-const createQueryClient = () => new QueryClient();
+const createQueryClient = () => new QueryClient({
+  defaultOptions: {
+    queries:{
+      refetchOnWindowFocus: false,
+      
+    }
+  },
+
+});
 
 let clientQueryClientSingleton: QueryClient | undefined = undefined;
 const getQueryClient = () => {
@@ -27,6 +35,7 @@ export function TRPCReactProvider(props: { children: React.ReactNode }) {
 
   const [trpcClient] = useState(() =>
     api.createClient({
+      
       links: [
         loggerLink({
           enabled: (op) =>
