@@ -31,6 +31,7 @@ import {
   startOfDay,
   isValid,
 } from "date-fns";
+import SummaryTable from "./_components/summary-table";
 
 export default function Home() {
   const form = useZodForm({
@@ -59,7 +60,7 @@ export default function Home() {
     return isValidDate;
   };
 
-  const { data: spends } = api.spend.getAllByRange.useQuery(
+  const { data: spends } = api.transaction.getAllByRange.useQuery(
     {
       from: form.getValues("dateRange.from")!,
       to: form.getValues("dateRange.to")!,
@@ -68,7 +69,7 @@ export default function Home() {
       enabled: isDateRangeValid(),
     },
   );
-  const { data: totalMonth } = api.spend.getTotalByRange.useQuery(
+  const { data: totalMonth } = api.transaction.getTotalByRange.useQuery(
     {
       from: form.getValues("dateRange.from")!,
       to: form.getValues("dateRange.to")!,
@@ -132,54 +133,7 @@ export default function Home() {
           <h2 className="text-2xl font-semibold">Total this month</h2>
           <p className="text-2xl font-semibold">{totalMonth} </p>
         </div>
-        <Table>
-          <TableHeader>
-            <TableRow>
-              <TableHead>Name</TableHead>
-              <TableHead>Status</TableHead>
-              <TableHead>Price</TableHead>
-              <TableHead className="hidden md:table-cell">
-                Total Sales
-              </TableHead>
-              <TableHead className="hidden md:table-cell">Created at</TableHead>
-              <TableHead>
-                <span className="sr-only">Actions</span>
-              </TableHead>
-            </TableRow>
-          </TableHeader>
-          <TableBody>
-            {spends?.map((spend, i) => (
-              <TableRow key={spend.id}>
-                <TableCell className="font-medium">{spend.name}</TableCell>
-                <TableCell>
-                  <Badge variant="outline">spend</Badge>
-                </TableCell>
-                <TableCell>{spend.amount}</TableCell>
-                <TableCell className="hidden md:table-cell">
-                  {spend.description}
-                </TableCell>
-                <TableCell className="hidden md:table-cell">
-                  {new Date(spend.createdAt).toLocaleString()}
-                </TableCell>
-                <TableCell>
-                  <DropdownMenu>
-                    <DropdownMenuTrigger asChild>
-                      <Button aria-haspopup="true" size="icon" variant="ghost">
-                        <MoreHorizontal className="h-4 w-4" />
-                        <span className="sr-only">Toggle menu</span>
-                      </Button>
-                    </DropdownMenuTrigger>
-                    <DropdownMenuContent align="end">
-                      <DropdownMenuLabel>Actions</DropdownMenuLabel>
-                      <DropdownMenuItem>Edit</DropdownMenuItem>
-                      <DropdownMenuItem>Delete</DropdownMenuItem>
-                    </DropdownMenuContent>
-                  </DropdownMenu>
-                </TableCell>
-              </TableRow>
-            ))}
-          </TableBody>
-        </Table>
+        <SummaryTable spends={spends||[]}/>
       </div>
     </>
   );

@@ -21,8 +21,7 @@ export type DatePickerProps = ButtonProps & {
 };
 
 export function DatePicker({ className, calendar, ...props }: DatePickerProps) {
-  const [date, setDate] = React.useState<Date>();
-
+  const date = calendar?.selected;
   return (
     <Popover>
       <PopoverTrigger asChild>

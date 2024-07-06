@@ -1,8 +1,12 @@
 import React from 'react'
+import LoansTable from './_components/loans-table'
 
 const LoansPage = () => {
+  
   return (
-    <div>LoansPage</div>
+    <div>
+      <LoansTable loans={[]}/>
+    </div>
   )
 }
 

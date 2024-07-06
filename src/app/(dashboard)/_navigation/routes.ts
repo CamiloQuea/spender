@@ -16,7 +16,7 @@ export type RouteMap<T extends string> = {
 export type RouteKey =
   | "main"
   | "summary"
-  | "expenses"
+  | "transaction"
   | "loans"
   | "graph"
   | "settings";
@@ -32,9 +32,9 @@ export const routesMap: RouteMap<RouteKey> = {
     name: "Summary",
     icon: BookText
   },
-  "expenses-page": {
-    path: "/expenses",
-    name: "Expenses",
+  "transaction-page": {
+    path: "/transaction",
+    name: "Transactions",
     icon: ShoppingCart
   },
   "loans-page": {
